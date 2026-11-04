@@ -1,16 +1,30 @@
 /*
- * Independent Inner Worlds — Time-based mechanic
+ * Independent Inner Worlds - Time-based mechanic
+ * Mechanic owner: Leona Li
  *
- * AI acknowledgement:
- * This project was developed with help from ChatGPT (OpenAI). ChatGPT helped
- * organise the two offset timelines, structure the CharacterTimeline and
- * ThoughtIcon classes, create the grayscale-to-colour crossfade, and combine
- * The code was reviewed, adapted and visually directed for this project.
- *
- * No external code examples were copied. p5.js reference:
- * https://p5js.org/reference/
+ * This file controls the life cycle of the thinking icons.
+ * After the roles A and B start running, there will be a
+ * 3-second period without any effect. Then, 3 seconds later,
+ * they will follow the same 15-second sequence, but their starting times are different,
+ * so their inner worlds do not need to appear simultaneously.
+ * 
+ * AI note: ChatGPT helped me reorganise the offset timelines and the
+ * grayscale-to-colour transition. I tested, adjusted and integrated the code.
+ * A fuller acknowledgement is included in README.md.
+
+ * References consulted:
+ * - p5.js millis(): https://p5js.org/reference/p5/millis/
+ * - p5.js lerp(): https://p5js.org/reference/p5/lerp/
+ * - p5.js image functions: https://p5js.org/reference/p5/createImage/
+ * - p5.js drawingContext: https://p5js.org/reference/p5/drawingContext/
+ * - Object.freeze():
+ *   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze
+ * - smoothstep formula:
+ *   https://registry.khronos.org/OpenGL-Refpages/gl4/html/smoothstep.xhtml
  */
 
+// Positions and sizes are planned on a fixed 1440 x 810 design canvas.
+// The final drawing can then be scaled to fit a different screen size.
 const DESIGN_WIDTH = 1440;
 const DESIGN_HEIGHT = 810;
 
@@ -20,6 +34,8 @@ const A_START_SECONDS = 3;
 const B_START_SECONDS = 10.5;
 const CHARACTER_DURATION = 15;
 
+// These labels make the timeline easier to read than using stage numbers.
+// Object.freeze() prevents the stage names from being changed accidentally.
 const STAGES = Object.freeze({
   HIDDEN: "hidden",
   REVEAL: "reveal",
@@ -29,21 +45,24 @@ const STAGES = Object.freeze({
   DISSOLVE: "dissolve",
   COMPLETE: "complete",
 });
-//remove extra background imange
-//let backgroundImage;
-//let characterAImage;
-//let characterBImage;
+
+// The group project already draws the background and people, so this file only
+// loads the icon images used by the Time-based mechanic.
+// let backgroundImage;
+// let characterAImage;
+// let characterBImage;
 let iconImages = {};
 let characterA;
 let characterB;
 let cycleStartMillis = 0;
 
 function preloadtime() {
-  //don't reuse backgrounds or characters
-  //backgroundImage = loadImage("assets/background.png");
-  //characterAImage = loadImage("assets/people/character-a.png");
-  //characterBImage = loadImage("assets/people/character-b.png");
+  // These assets are now supplied by the combined group sketch.
+  // backgroundImage = loadImage("assets/background.png");
+  // characterAImage = loadImage("assets/people/character-a.png");
+  // characterBImage = loadImage("assets/people/character-b.png");
 
+  // Store the icon images by name so the character data can request the image
   const iconFiles = [
     "A_calendar",
     "A_clock",
@@ -68,6 +87,8 @@ function setuptime() {
   //imageMode(CENTER);
   //pixelDensity(1);
 
+  // Character A owns the pressure-related icons. The data below sets the base
+  // position, size and motion phase of each icon before animation is applied.
   characterA = new CharacterTimeline({
     id: "A",
     startAt: A_START_SECONDS,
@@ -86,6 +107,8 @@ function setuptime() {
     ],
   });
 
+  // Character B uses the same timeline class but has its own start time,
+  // positions, colours and memory-related icons.
   characterB = new CharacterTimeline({
     id: "B",
     startAt: B_START_SECONDS,
@@ -104,6 +127,8 @@ function setuptime() {
     ],
   });
 
+  // millis() returns the time since the sketch started. Saving the current
+  // value gives this mechanic its own zero point.
   cycleStartMillis = millis();
 }
 
@@ -115,6 +140,8 @@ function drawtime() {
   characterA.update(seconds);
   characterB.update(seconds);
 
+  // These transforms place Character A's icons over the character position in
+  // the combined group composition. push() and pop() keep the transform local.
   push();
   imageMode(CENTER);
   translate(480, 300);
@@ -123,6 +150,8 @@ function drawtime() {
   characterA.displayIcons(seconds);
   pop();
 
+  // Character B uses a separate transform because the figure is on the other
+  // side of the canvas.
   push();
   imageMode(CENTER);
   translate(725, 300);
@@ -132,6 +161,8 @@ function drawtime() {
   pop();
 }
 
+// Earlier standalone drawing code is kept here for reference. The final group
+// sketch now handles the background, people and responsive scene transform.
 //function drawtime() {
   //const scene = getSceneTransform();
   //const seconds = (millis() - cycleStartMillis) / 1000;
@@ -159,16 +190,21 @@ function drawtime() {
   //pop();
 //}
 
+// Pressing R restarts both timelines from the opening quiet state. Their offset
+// is preserved because both characters use the same cycleStartMillis value.
 function keyPressed() {
   if (key === "r" || key === "R") {
     cycleStartMillis = millis();
   }
 }
 
+// Resizing is managed by the main sketch.
 //function windowResized() {
   //resizeCanvas(windowWidth, windowHeight);
 //}
 
+// One CharacterTimeline object stores the timing and icon collection for one
+// character. This lets A and B share the same logic without duplicating it.
 class CharacterTimeline {
   constructor(config) {
     this.id = config.id;
@@ -183,6 +219,8 @@ class CharacterTimeline {
     this.stage = STAGES.HIDDEN;
     this.presence = 0;
 
+    // Convert each plain icon-data object into a ThoughtIcon object. Each icon
+    // keeps its own state but still belongs to this character's array.
     this.icons = config.iconData.map(
       (data, index) =>
         new ThoughtIcon({
@@ -196,6 +234,8 @@ class CharacterTimeline {
 
   update(globalSeconds) {
     const timeSinceStart = globalSeconds - this.startAt;
+    
+    // A negative value means the character has not started.
     // After the one-time opening delay, each character restarts immediately
     // after its own 15-second sequence. B keeps a 7.5-second offset from A.
     this.localTime =
@@ -203,6 +243,8 @@ class CharacterTimeline {
     this.stage = stageFromTime(this.localTime);
     this.presence = characterPresence(this.localTime);
 
+    // The focus point is the clock for A and the house for B. Other icons move
+    // slightly towards this point during the Focus stage.
     const focusIcon = this.icons.find((icon) => icon.isFocus);
     const focusPoint = focusIcon
       ? { x: focusIcon.baseX, y: focusIcon.baseY }
@@ -230,6 +272,8 @@ class CharacterTimeline {
     pop();
   }
 
+  // Optional rings, ribbons and nodes were designed as subtle background
+  // accents. They use fixed sin/cos offsets, so the motion stays repeatable.
   displayAccents(globalSeconds) {
     const [r, g, b] = this.accentColour;
     const direction = this.id === "A" ? -1 : 1;
@@ -255,7 +299,7 @@ class CharacterTimeline {
       endShape();
     }
 
-    // A second ribbon threads between the upper icons.
+    // Effect Design:A second ribbon threads between the upper icons.
     stroke(r, g, b, activeAlpha * 0.68);
     beginShape();
     for (let i = 0; i <= 8; i += 1) {
@@ -306,10 +350,16 @@ class CharacterTimeline {
   }
 }
 
+// A ThoughtIcon stores the image and all animated values for one icon. Keeping
+// these values inside the object makes it possible to update every icon with
+// the same stage logic while retaining different positions and motion phases.
 class ThoughtIcon {
   constructor(config) {
     this.name = config.name;
     this.image = config.image;
+
+    // A grayscale copy is created once during setup. During Reveal, the gray
+    // and colour copies are crossfaded instead of filtering every frame.
     this.grayImage = makeGrayCopy(config.image);
     this.baseX = config.x;
     this.baseY = config.y;
@@ -318,6 +368,8 @@ class ThoughtIcon {
     this.index = config.index;
     this.isFocus = config.isFocus;
 
+    // These are the icon's current visual values. update() moves them towards
+    // new targets, and display() uses the results to draw the icon.
     this.alpha = 0;
     this.colourAmount = 0;
     this.motionAmount = 0;
@@ -328,6 +380,8 @@ class ThoughtIcon {
   }
 
   update(localTime, stage, focusPoint) {
+    // Each stage first decides its target values. The current values are eased
+    // towards these targets at the end of the function.
     let targetAlpha = 0;
     let targetColour = 0;
     let targetMotion = 0;
@@ -336,6 +390,8 @@ class ThoughtIcon {
     let attraction = 0;
 
     if (stage === STAGES.REVEAL) {
+      // A small delay based on index prevents every icon reaching full opacity
+      // on exactly the same frame.
       const delay = this.index * 0.25;
       const progress = smoothStep(0, 2.25, localTime - delay);
       const colourProgress = smoothStep(0.35, 2.75, localTime - delay);
@@ -344,12 +400,15 @@ class ThoughtIcon {
       targetMotion = 0.35 * progress;
       targetScale = lerp(0.94, 1, progress);
     } else if (stage === STAGES.ACTIVE) {
+      // All icons are visible and their movement grows gradually.
       const progress = smoothStep(3, 7, localTime);
       targetAlpha = 255;
       targetColour = 1;
       targetMotion = lerp(0.45, 1, progress);
       targetScale = 1;
     } else if (stage === STAGES.FOCUS) {
+      // The selected core icon becomes larger and brighter. Other icons become
+      // quieter and move slightly towards the focus point.
       const progress = smoothStep(7, 9.2, localTime);
       targetAlpha = this.isFocus ? 255 : lerp(235, 150, progress);
       targetColour = 1;
@@ -360,6 +419,8 @@ class ThoughtIcon {
         : lerp(1, 0.86 + (this.index % 3) * 0.06, progress);
       attraction = this.isFocus ? 0 : 0.12 * progress;
     } else if (stage === STAGES.SETTLE) {
+      // Movement slows and the icons return towards their normal positions and
+      // sizes before the dissolve begins.
       const progress = smoothStep(10, 12, localTime);
       targetAlpha = this.isFocus
         ? 255
@@ -372,6 +433,8 @@ class ThoughtIcon {
         : lerp(0.92, 1, progress);
       attraction = this.isFocus ? 0 : lerp(0.12, 0, progress);
     } else if (stage === STAGES.DISSOLVE) {
+      // Colour drains before the icons finish fading, which makes the ending
+      // feel gradual instead of switching off suddenly.
       const progress = constrain(map(localTime, 12, 15, 0, 1), 0, 1);
       targetAlpha = 255 * (1 - smoothStep(0.24, 1, progress));
       targetColour = 1 - smoothStep(0, 0.58, progress);
@@ -380,13 +443,17 @@ class ThoughtIcon {
       targetFocus = 0;
     }
 
-    // lerp() smooths the transition between the target values of each stage.
+    //lerp() moves each current value a small part of the way towards its
+    // target on every frame. Different amounts give each property a slightly
+    // different response speed.
     this.alpha = lerp(this.alpha, targetAlpha, 0.12);
     this.colourAmount = lerp(this.colourAmount, targetColour, 0.1);
     this.motionAmount = lerp(this.motionAmount, targetMotion, 0.08);
     this.displayScale = lerp(this.displayScale, targetScale, 0.09);
     this.focusAmount = lerp(this.focusAmount, targetFocus, 0.1);
 
+    // During Focus, attraction moves non-focus icons part of the way from their
+    // base position towards the core icon.
     this.currentX = lerp(this.baseX, focusPoint.x, attraction);
     this.currentY = lerp(this.baseY, focusPoint.y, attraction);
   }
@@ -410,6 +477,9 @@ class ThoughtIcon {
       this.baseSize * this.displayScale * pulse * stretchX;
     const heightValue =
       this.baseSize * this.displayScale * pulse * stretchY;
+    
+    // Both versions are drawn during the crossfade. As colourAmount rises, the
+    // grayscale copy fades out while the colour copy fades in.
     const grayAlpha = this.alpha * (1 - this.colourAmount);
     const colourAlpha = this.alpha * this.colourAmount;
 
@@ -436,6 +506,7 @@ class ThoughtIcon {
       image(this.image, 0, 0, widthValue, heightValue);
     }
 
+    // Reset shared drawing settings so the glow does not affect later elements.
     noTint();
     drawingContext.shadowBlur = 0;
     pop();
@@ -452,6 +523,8 @@ function stageFromTime(localTime) {
   return STAGES.COMPLETE;
 }
 
+// This value controls how visible the optional rings and nodes are. It fades
+// them in at the start and out near the end of a character's cycle.
 function characterPresence(localTime) {
   if (localTime < 0 || localTime > CHARACTER_DURATION) return 0;
   if (localTime < 2) return smoothStep(0, 2, localTime);
@@ -476,6 +549,9 @@ function makeGrayCopy(sourceImage) {
   return copyImage;
 }
 
+// smoothStep() turns a linear 0-1 progress value into a softer ease-in/ease-out
+// curve. The equation follows the standard smoothstep interpolation formula
+// referenced in the file header.
 function smoothStep(edge0, edge1, value) {
   const amount = constrain((value - edge0) / (edge1 - edge0), 0, 1);
   return amount * amount * (3 - 2 * amount);
