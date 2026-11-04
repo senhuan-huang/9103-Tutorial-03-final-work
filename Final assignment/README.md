@@ -39,11 +39,10 @@ The project was particularly influenced by the following visual qualities:
 - Surreal and dreamlike environments
 - Luminous circles and bubbles
 - Distorted and irregular forms
-- The contrast between a quiet exterior and a vivid inner world
 
 ### Influence on the Final Design
 
-Machado’s work influenced our decision to represent thoughts as atmospheric visual fragments rather than literal text.
+Machado’s work influenced our decision to represent thoughts as visual fragments rather than literal text.
 
 The final artwork uses two luminous figures with contrasting colour palettes. Character A uses warmer coral, orange and yellow tones, while Character B uses cooler cyan, violet and pink tones.
 
@@ -293,11 +292,7 @@ It assisted with:
 - Structuring the `CharacterWorld` and `ThoughtIcon` classes
 - Creating independent timers for Character A and Character B
 - Organising the thirteen-second sequence into five visual stages
-- Using `lerp()` for smooth visual transitions
-- Using fixed `sin()` and `cos()` values for repeatable movement
-- Developing irregular liquid containers with `curveVertex()`
 - Improving variable names, comments and code organisation
-- Explaining the mechanic in the project documentation
 
 The Time-based code measures the elapsed frames after a character is activated. The elapsed time is converted into Outline, Colour, Expansion, Focus or Dissolve. Each `ThoughtIcon` then updates its opacity, colour, glow, scale, position, motion and deformation according to the current stage.
 
@@ -312,27 +307,18 @@ If any final background, character, icon or texture was created or modified usin
 | Character B | [ADD TOOL OR WRITE “NOT AI-GENERATED”] | [ADD DETAILS] | [ADD DETAILS] |
 | Other assets | [ADD TOOL OR WRITE “NONE”] | [ADD DETAILS] | [ADD DETAILS] |
 
-## External References
+### References
 
-Any external artwork, code, tutorial, sound, image or asset used in the final project must include a working link and a short explanation.
+- Colorful Coding. (2021, March 1). Code an audio visualizer in p5js (from scratch) | Coding Project #17 [Video]. YouTube. https://www.youtube.com/watch?    v=uk96O7N1Yo0
+- Liude Dingdianshi. (2026, July 14). A colourful ring that breathes with music in p5.js [Video]. Xiaohongshu. https://www.xiaohongshu.com/explore/6a556c58000000000f030883
+- Machado, A. (2015). In Natura [Databend artwork]. [ANTI]MATERIA. https://anti-materia.org/arthur-machado-eng
+- Machado, A. (2015). Sin título [Databend artwork]. [ANTI]MATERIA. https://anti-materia.org/arthur-machado-eng
+- Machado, A. (2016). New DLA [3D model]. [ANTI]MATERIA. https://anti-materia.org/arthur-machado-eng
+- Machado, A. (2016). Nobody H Me [3D model]. [ANTI]MATERIA. https://anti-materia.org/arthur-machado-eng
+- Vivi S. (2024, December 16). p5.js sound noise [Video]. Xiaohongshu. https://www.xiaohongshu.com/explore/675f05dd000000000600f2f3
+- Yangou Nengliang Wuqiong. (2026, July 22). Audio visualisation [Video]. Xiaohongshu. https://www.xiaohongshu.com/explore/6a60c3b6000000000f01611a
+    
 
-### Artistic References
-
-- Arthur Machado, *New DLA* (2016).  
-  Link: [ADD THE ORIGINAL SOURCE LINK]  
-  Influence: Translucent human forms, distorted digital bodies and psychological visual space.
-
-- Arthur Machado, *Nobody H Me* (2016).  
-  Link: [ADD THE ORIGINAL SOURCE LINK]  
-  Influence: Dreamlike colour, memory, landscape and digital atmosphere.
-
-- Arthur Machado, *In Natura* (2015).  
-  Link: [ADD THE ORIGINAL SOURCE LINK]  
-  Influence: Luminous organic forms, surreal environments and floating visual elements.
-
-- Arthur Machado, *Sin título* (2015).  
-  Link: [ADD THE ORIGINAL SOURCE LINK]  
-  Influence: Fragmented bodies and the contrast between visible and hidden identity.
 
 ## Team Members
 
