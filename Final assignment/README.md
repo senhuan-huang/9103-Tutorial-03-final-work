@@ -107,15 +107,15 @@ INTERIOR-DISTANCE/
 ├── index.html
 ├── style.css
 ├── sketch.js
-├── user-input.js
+├── input-control.js
 ├── audio-mechanic.js
-├── noise-mechanic.js
-├── time-mechanic.js
+├── perlin-layer1.js
+├── timebased_sketch.js
 ├── assets/
 │   ├── images/
 │   └── audio/
 ├── README.md
-├── LICENSE
+├── libraries
 └── .gitignore
 ```
 
@@ -133,9 +133,9 @@ The mechanics remain technically separate, but their effects are layered togethe
 
 | Team Member | Mechanic | Script File | Responsibility |
 |---|---|---|---|
-| Senhuan Huang | User Input | `[Input-control,js]` | [Detects mouse hover over each character and controls the fade-in. Besides, the people will continuously adjust the color gradient, each circuler is 4s,just like breath. ] |
-| Xinya Huang | Audio | `[audio-mechanic.js]` | [Uses FFT energy and waveform data to control the circular audio visualisation, colour transitions, dark overlay and particle speed.] |
-| Runqing Tian | Perlin Noise and Randomness | `[perlin-layer1.js]` | [Uses Perlin noise to animate two frosted bubble outlines and seeded random values to create stable grain textures.] |
+| Senhuan Huang | User Input | `[Input-control,js]` | Detects mouse hover over each character and controls the fade-in. Besides, the people will continuously adjust the color gradient, each circuler is 4s,just like breath. |
+| Xinya Huang | Audio | `[audio-mechanic.js]` | Uses FFT energy and waveform data to control the circular audio visualisation, colour transitions, dark overlay and particle speed.] |
+| Runqing Tian | Perlin Noise and Randomness | `[perlin-layer1.js]` | Uses Perlin noise to animate two frosted bubble outlines and seeded random values to create stable grain textures.] |
 | Leona Li | Time-based Interaction |  `[timebased_sketch.js]` | Automatically controls the delayed start and repeating fifteen-second visual life cycle of each character’s thought icons. |
 
 ## Individual Mechanic Details
