@@ -1,3 +1,12 @@
+/*
+ * AI acknowledgement:
+ * ChatGPT assisted with the more complex implementation of the
+ * grain positioning and time-based bubble updates. Codex was used
+ * to review the code for errors. The visual concept, colours and
+ * final appearance were designed and adjusted by Runqing Tian.
+ * Full details are included in README.md.
+ */
+
 // Declare two variables, left and right bubble.
 let leftBubble;
 let rightBubble;
