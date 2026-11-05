@@ -186,21 +186,48 @@ A colour image gradually appears over the white and grey character. When the mou
 
 **Purpose**
 
-EXPLAIN WHAT THE AUDIO MECHANIC CONTRIBUTES TO THE CONCEPT
+The Audio mechanic transforms sound into visual movement, adding rhythm and emotional expression to the artwork. When the viewer clicks either character, the looping soundtrack activates a circular audio visualiser. The changing waveform, colours and particles help make the characters' invisible emotional worlds feel more dynamic and connected.
 
 **Audio Source**
 
-ADD THE TRACK, RECORDING OR SOUND SOURCE
+The soundtrack used in this project is Light Leaks by Shrimpnose, Joe Nora and Allem Iversom, released in 2021 as part of Between Dunes EP.
 
-**Visual Result**
+I downloaded the track from QQ Music and personally selected and edited a short excerpt for the project. The edited audio was saved as music1.wav in the assets folder and is used as the looping soundtrack for the Audio mechanic.
 
+The audio is loaded using loadSound() and analysed in real time with p5.FFT() to drive the circular waveform, colour transitions, particle movement and other sound-reactive visual effects.
 EXPLAIN WHICH VISUAL PROPERTIES RESPOND TO THE AUDIO
 
 **Main Techniques**
 
-- ADD AUDIO ANALYSIS TECHNIQUE
-- ADD LEVEL OR FREQUENCY TECHNIQUE
-- ADD IMPORTANT VARIABLES OR CLASSES
+p5.FFT(0.3) analyses the soundtrack in real time, using a smoothing value to control the response of the audio data.
+
+fft.waveform() provides waveform values, which are mapped to the radius of two mirrored semicircular shapes using map(), sin(), cos() and vertex().
+
+fft.getEnergy(20, 200) measures low-frequency energy and provides a control value for the visual effects.
+
+lerpColor() creates smooth colour transitions between cyan, blue-purple, purple and pink.
+
+The Particle class stores each particle's position, velocity, acceleration, size and colour. Its update() method controls movement, show() draws the glowing particles, and edges() removes particles after they leave the canvas.
+
+A conditional energy threshold increases particle speed while the soundtrack is playing, without stopping their normal movement when the music is paused.
+
+map(), transparency and conditional rotation are used to create the audio-responsive background effects in the standalone prototype.\
+
+**Visual Result**
+The circular waveform changes shape according to the audio waveform data, creating an irregular outline that moves inward and outward with the sound. Its colour transitions smoothly between cyan, blue-purple, purple and pink as the low-frequency energy changes.
+
+Soft glowing particles continuously move outward from the circular visualiser, even when the music is not playing. When the soundtrack is playing and the audio energy exceeds a threshold, the particles accelerate, creating a stronger sense of movement.
+
+Audio energy also controls a semi-transparent dark overlay. In my standalone prototype, I additionally used subtle background rotation during stronger audio peaks and a soft vignette to create a dreamlike atmosphere.
+
+During final group integration, the original Play/Pause testing button was replaced by character-click interaction, and the canvas dimensions and visual positioning were adapted to fit the shared artwork.
+
+**Original Background Illustration**
+The final background, BGfinal.png, was hand-drawn by Xinya Huang specifically for Interior Distance. It depicts a dreamlike landscape with blue mountains, a reflective lake, soft pink and yellow lighting, glowing plants and a crescent moon.
+
+Its visual direction was inspired by the surreal atmosphere, luminous colours and dreamlike digital environments found in the work of Brazilian digital artist Arthur Machado (Tù.úk'z). These influences were interpreted through an original hand-drawn landscape rather than directly copying or reusing any existing artwork.
+
+The background establishes a calm, imaginative atmosphere and provides a visual environment for the characters, circular audio visualiser, particles and other interactive elements. No generative AI was used to create or modify this final background illustration.
 
 **Main Script**
 
@@ -344,6 +371,7 @@ The project was visually inspired by the digital artworks of Arthur Machado, but
 - Machado, A. (2016). Nobody H Me [3D model]. [ANTI]MATERIA. https://anti-materia.org/arthur-machado-eng
 - Vivi S. (2024, December 16). p5.js sound noise [Video]. Xiaohongshu. https://www.xiaohongshu.com/explore/675f05dd000000000600f2f3
 - Yangou Nengliang Wuqiong. (2026, July 22). Audio visualisation [Video]. Xiaohongshu. https://www.xiaohongshu.com/explore/6a60c3b6000000000f01611a
+- Shrimpnose, & Joe Nora. (2021). Light leaks (feat. Allem Iversom) [Song]. On Between dunes EP. Friends of Friends Music. https://shrimpnose.bandcamp.com/album/between-dunes-ep
     
 
 
