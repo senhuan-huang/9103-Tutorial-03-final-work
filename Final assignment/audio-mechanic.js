@@ -1,3 +1,18 @@
+/*
+ * Audio Mechanic – Xinya Huang
+ * IDEA9103 
+ *
+ * Basic audio loading, playback and FFT techniques etc.
+ * were learned from the IDEA9103 Week 10 Tutorial.
+ *
+ * The audio-reactive visual effects were also inspired
+ * by Colorful Coding's p5.js audio visualiser tutorial:
+ * https://www.youtube.com/watch?v=uk96O7N1Yo0
+ *
+ * I adapted the visual parameters, colour palette,
+ * particle behaviour and audio response for this project.
+ */
+
 let song;
 //let img
 let fft;
