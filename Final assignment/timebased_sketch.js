@@ -190,10 +190,7 @@ function drawtime() {
   //pop();
 //}
 
- {
-    cycleStartMillis = millis();
-  }
-}
+
 
 // Resizing is managed by the main sketch.
 //function windowResized() {
