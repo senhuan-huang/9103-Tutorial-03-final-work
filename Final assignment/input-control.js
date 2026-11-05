@@ -1,3 +1,12 @@
+/*
+ * AI acknowledgement:
+ * ChatGPT and Codex were used to help explain p5.js functions,
+ * review the transparency logic and debug integration with the
+ * main sketch. The hover areas, fade behaviour and breathing
+ * effect were tested and adjusted by Senhuan Huang.
+ * Full details are included in README.md.
+ */
+
 //my code setting -1 is close，0 is left，1 is right
 let mousehover=-1;
 //when mouse not hover on any character
