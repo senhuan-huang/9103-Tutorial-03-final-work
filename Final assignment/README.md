@@ -148,10 +148,10 @@ The mechanics remain technically separate, but their effects are layered togethe
 
 | Team Member | Mechanic | Script File | Responsibility |
 |---|---|---|---|
-| Senhuan Huang | User Input | `[Input-control,js]` | Detects mouse hover over each character and controls the fade-in. Besides, the people will continuously adjust the color gradient, each circuler is 4s,just like breath. |
-| Xinya Huang | Audio | `[audio-mechanic.js]` | Uses FFT energy and waveform data to control the circular audio visualisation, colour transitions, dark overlay and particle speed. |
-| Runqing Tian | Perlin Noise and Randomness | `[perlin-layer1.js]` | Uses Perlin noise to animate two frosted bubble outlines and seeded random values to create stable grain textures. |
-| Leona Li | Time-based Interaction |  `[timebased_sketch.js]` | Automatically controls the delayed start and repeating fifteen-second visual life cycle of each character’s thought icons. |
+| Senhuan Huang | User Input | `Input-control,js` | Detects mouse hover over each character and controls the fade-in. Besides, the people will continuously adjust the color gradient, each circuler is 4s,just like breath. |
+| Xinya Huang | Audio | `audio-mechanic.js` | Uses FFT energy and waveform data to control the circular audio visualisation, colour transitions, dark overlay and particle speed. |
+| Runqing Tian | Perlin Noise and Randomness | `perlin-layer1.js` | Uses Perlin noise to animate two frosted bubble outlines and seeded random values to create stable grain textures. |
+| Leona Li | Time-based Interaction |  `timebased_sketch.js` | Automatically controls the delayed start and repeating fifteen-second visual life cycle of each character’s thought icons. |
 
 ## Individual Mechanic Details
 
@@ -281,10 +281,6 @@ The Time-based mechanic does not use mouse input, audio data, Perlin noise or ra
 
 `timebased_sketch.js`
 
-**Main Script**
-
-`timebased_sketch.js`
-
 ## AI Acknowledgement
 
 Generative AI tools were used by some team members for code explanation, debugging, code organisation, documentation and early concept discussion.
@@ -323,13 +319,6 @@ It assisted with:
 - Improving variable names, comments and code organisation
 
 The Time-based code measures the elapsed frames after a character is activated. The elapsed time is converted into Outline, Colour, Expansion, Focus or Dissolve. Each `ThoughtIcon` then updates its opacity, colour, glow, scale, position, motion and deformation according to the current stage.
-
-#### Time-based Technical References
-- p5.js. `millis()`. https://p5js.org/reference/p5/millis/
-- p5.js. `createImage()`. https://p5js.org/reference/p5/createImage/
-- p5.js. `drawingContext`. https://p5js.org/reference/p5/drawingContext/
-- MDN Web Docs. `Object.freeze()`. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze
-- Khronos Group. `smoothstep`. https://registry.khronos.org/OpenGL-Refpages/gl4/html/smoothstep.xhtml
 
 ### Visual Asset Authorship
 
