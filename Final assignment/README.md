@@ -245,7 +245,7 @@ This mechanic creates two softly glowing bubbles with gently changing outlines. 
 
 **Visual Result**
 
-Two bubbles appear side by side, with a pale pink rim on the left and a pale blue rim on the right. Each bubble has a translucent, near-white interior surrounded by a soft, frosted edge. Small grains follow the changing outline, adding texture while retaining a consistent pattern. The transparent canvas background allows the effect to be placed over other visual layers.
+Two bubbles appear side by side, with a pale pink rim on the left and a pale blue rim on the right. Each bubble has a translucent, near-white interior surrounded by a soft, frosted edge. Small grains follow the changing outline, adding texture while retaining a consistent pattern. The transparent canvas background allows the effect to be placed over other visual layers. The translucent bubble shapes are drawn over the shared background, allowing the underlying scene to remain visible through their interiors.
 
 **Main Techniques**
 
@@ -262,7 +262,6 @@ Two bubbles appear side by side, with a pale pink rim on the left and a pale blu
 - `floor()` and the remainder operator `%` identify neighbouring outline samples and wrap the final index back to the first.
 - `lerp()` interpolates between neighbouring radius values so the grains follow the changing outline.
 - `push()`, `translate()` and `pop()` position each bubble while keeping its drawing styles and coordinate transformations separate.
-- `clear()` removes the previous frame while preserving the canvas’s transparent background.
 - Proportional coordinates, `min()` and `windowResized()` adjust the bubbles’ positions and sizes when the browser window changes.
 
 **Main Script**
@@ -324,8 +323,7 @@ The Time-based mechanic does not use mouse input, audio data, Perlin noise or ra
 
 ## AI Acknowledgement
 
-Generative AI tools were used by some team members for code explanation, debugging, code organisation, documentation and early concept discussion.
-Each team member must describe their own AI use below. AI-assisted code must also be acknowledged in comments inside the relevant script file.
+Generative AI tools were used by some team members for implementation assistance, code explanation, debugging, code organisation and documentation. Individual uses are described below.
 
 ### User Input – Senhuan Huang
 
@@ -382,8 +380,8 @@ The project was visually inspired by the digital artworks of Arthur Machado, but
 
 ### References
 
-- Colorful Coding. (2021, March 1). *Code an audio visualizer in p5.js from scratch | Coding Project #17* [Video]. YouTube. https://www.youtube.com/watch?v=uk96O7N1Yo0
-- Liude Dingdianshi. (2026, July 14). A colourful ring that breathes with music in p5.js [Video]. Xiaohongshu.                                                              https://www.xiaohongshu.com/explore/6a556c58000000000f030883
+- Colorful Coding. (2021, March 1). *Code an audio visualizer in p5.js from scratch | Coding Project #17* [Video]. YouTube.                   https://www.youtube.com/watch?v=uk96O7N1Yo0
+- Liude Dingdianshi. (2026, July 14). A colourful ring that breathes with music in p5.js [Video]. Xiaohongshu.                                https://www.xiaohongshu.com/explore/6a556c58000000000f030883
 - Machado, A. (2015). In Natura [Databend artwork]. [ANTI]MATERIA. https://anti-materia.org/arthur-machado-eng
 - Machado, A. (2015). Sin título [Databend artwork]. [ANTI]MATERIA. https://anti-materia.org/arthur-machado-eng
 - Machado, A. (2016). New DLA [3D model]. [ANTI]MATERIA. https://anti-materia.org/arthur-machado-eng
@@ -401,4 +399,4 @@ The project was visually inspired by the digital artworks of Arthur Machado, but
 | Senhuan Huang·550464143·shua0181 | User Input |
 | Xinya Huang·550836030·xhua0007 | Audio |
 | Runqing Tian· 550826916·rtia0370 | Perlin Noise and Randomness |
-| Leona Li·550795771·yuli0890 | Time-based Interaction |
+| Leona Li·550795771·yuli0890 | Time-based |
