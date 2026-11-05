@@ -308,12 +308,13 @@ The Time-based code measures the elapsed frames after a character is activated. 
 All visual assets used in the final artwork were designed and created by the team. No generative AI was used to produce or modify the final background, characters, thought icons, circles, bubbles, particles or textures.
 
 | Visual Element | Creation Method | Use in the Project |
-|---|---|---|---|
-| Background | [Designed and created by Xinaya Huang] | [Establishes the cosmic and dreamlike environment of the artwork] |
-| Character A | [Designed and created by Leona Li] | [Represents Reality and Pressure] |
-| Character B | [Designed and created by Leona Li] | [Represents Memory and Imagination] |
-| Thought icons | [Designed and created by Leona Li] | [Represent the thoughts, memories and responsibilities inside each character] |
-| Perlin noise bubbles | [Designed and created by Runqing Tian] | [Produce continuously changing frosted bubble forms] |
+|---|---|---|
+| Background | Designed and created by Xinya Huang | Establishes the cosmic and dreamlike environment of the artwork |
+| Character A | Designed and illustrated by Leona Li | Represents Reality and Pressure |
+| Character B | Designed and illustrated by Leona Li | Represents Memory and Imagination |
+| Thought icons | Designed and illustrated by LEona Li | Represent the thoughts, memories and responsibilities inside each character |
+| Perlin noise bubbles | Designed by Runqing Tian then created through the p5.js code | Produce continuously changing frosted bubble forms |
+
 The project was visually inspired by the digital artworks of Arthur Machado, but the team did not copy or directly reuse visual assets from his artworks.
 
 ### References
