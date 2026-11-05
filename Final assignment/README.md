@@ -46,31 +46,35 @@ Machado’s work influenced our decision to represent thoughts as visual fragmen
 
 The final artwork uses two luminous figures with contrasting colour palettes. Character A uses warmer coral, orange and yellow tones, while Character B uses cooler cyan, violet and pink tones.
 
-The characters initially appear quiet and visually restrained. After interaction, icons, particles, paths, light and movement reveal their inner worlds. The irregular liquid containers around the thought icons help them stand out against the cosmic background and make the thoughts feel unstable, alive and constantly changing.
+As the artwork unfolds, icons, particles, bubbles, light and movement reveal the two inner worlds. Some visual layers respond to the viewer, while the Perlin noise and Time-based layers continue automatically.
 
-The project does not directly reproduce Machado’s artworks. Instead, it adapts selected qualities from his visual language to create an original interactive experience.
+All final visual assets were designed and created by the team. The project does not directly reproduce or reuse assets from Machado’s artworks. Instead, it adapts selected qualities from his visual language to create an original interactive experience.
 
 ## Interaction Instructions
 
-1. Open the complete project folder in Visual Studio Code and run index.html using Live Server.
-2. Wait for the images, icons and audio file to finish loading.
-3. The Perlin noise bubbles and Time-based icon system begin automatically. They do not require a mouse click.
-4. Character A’s thought icons begin three seconds after the page opens.
-5. Character B’s thought icons begin 10.5 seconds after the page opens.
-6. Move the cursor over either character to reveal its colour layer.
-7. After a character has been hovered over once, its colour layer continues to “breathe” between lower and higher opacity in a four-second cycle.
-8. Click either character to start the soundtrack and Audio visualisation.
-9. Watch how the circular waveform changes colour with the audio energy. The surrounding particles move faster when the music becomes stronger.
-10. The two frosted bubbles continuously change shape through Perlin noise.
-11. Press R to restart the Time-based icon timelines.
+1. Open the `Final assignment` folder in Visual Studio Code.
+2. Run `index.html` using Live Server.
+3. Wait for the images, icons and audio file to finish loading.
+4. The Perlin noise bubbles and Time-based icon system begin automatically.
+5. Character A’s thought icons first appear three seconds after the page loads.
+6. Character B’s thought icons first appear 10.5 seconds after the page loads.
+7. Move the cursor over either character to reveal its colour layer.
+8. After a character has been hovered over once, its colour layer continues a four-second breathing-opacity cycle.
+9. Click either character to start the looping soundtrack and Audio visualisation.
+10. Observe how the circular waveform changes colour with the audio energy and how the particles move faster when the music becomes stronger.
+11. Observe how the two frosted bubbles continuously change shape through Perlin noise.
+12. Refresh the browser page if you want to restart the complete artwork from its opening state.
 
 ### Additional Controls
 
-- **Mouse hover: Reveals the colour layer of the character under the cursor. After the first hover, that character continues a four-second breathing opacity cycle.
-- **Mouse click: Clicking either character starts the looping soundtrack and Audio visualisation. Clicking outside both characters does nothing.
-- **Audio control: The soundtrack begins after the first valid character click because browsers require a user action before playing audio.
-- **Perlin bubbles: The bubbles run automatically and do not require user input.
-- **Time-based icons: The icon sequences run automatically and are not controlled by mouse input, audio, Perlin noise or random values.
+- **Mouse hover:** Reveals the colour layer of the character under the cursor. After the first hover, that character continues a four-second breathing-opacity cycle.
+- **Mouse click:** Clicking either character starts the soundtrack and Audio visualisation. Clicking outside both characters does nothing.
+- **Audio control:** The soundtrack begins after the first valid character click because the browser requires user interaction before playing audio.
+- **Perlin bubbles:** The bubbles run automatically and do not require user input.
+- **Time-based icons:** The icon sequences run automatically. They are not controlled by mouse input, audio, Perlin noise or random values.
+- **Keyboard controls:** None.
+- **Restart:** Refresh the browser page to restart the complete artwork.
+
 ## Techniques and Code Structure
 
 The project was created with **p5.js** and combines four distinct mechanics:
@@ -80,55 +84,66 @@ The project was created with **p5.js** and combines four distinct mechanics:
 3. Perlin Noise and Randomness
 4. Time-based Interaction
 
-Each mechanic is stored in a separate script file. The main `sketch.js` file brings the mechanics together and controls the shared canvas, character placement and overall drawing order.
+Each mechanic is stored in a separate script file. The main `main sketch.js` file calls the preload, setup, drawing and interaction functions from the four mechanics and controls their drawing order on the shared canvas.
 
 The project uses:
 
 - p5.js canvas drawing
 - Image loading and layered composition
-- Mouse interaction and character selection
-- Audio analysis and sound-reactive visuals
-- Perlin noise and random values
-- Frame-based timing
+- Mouse hover detection
+- Click-triggered audio
+- FFT audio analysis
+- Sound-reactive waveform and particles
+- Perlin noise and seeded random values
+- Millisecond-based timing
 - Classes and objects
 - Arrays of visual elements
-- Smooth interpolation
-- Trigonometric movement
+- Smooth interpolation with `lerp()`
+- Trigonometric movement with `sin()` and `cos()`
 - Custom shapes using vertices
-- Responsive canvas scaling
 - Modular JavaScript files
 
 ### Project Structure
 
-The final code integration was accomplished by Senhuan Huang within the team.
+The final code integration was completed by Senhuan Huang with contributions from all four mechanic owners.
 
 ```text
-INTERIOR-DISTANCE/
+Final assignment/
 ├── index.html
 ├── style.css
-├── sketch.js
+├── main sketch.js
 ├── input-control.js
 ├── audio-mechanic.js
 ├── perlin-layer1.js
+├── perlin-layer2.js
 ├── timebased_sketch.js
 ├── assets/
-│   ├── images/
-│   └── audio/
-├── README.md
-├── libraries
-└── .gitignore
+│   ├── BGfinal.png
+│   ├── music1.wav
+│   ├── icons/
+│   └── people/
+├── images/
+│   ├── C1.png
+│   ├── C2.png
+│   ├── CH1.png
+│   └── CH2.png
+├── libraries/
+│   ├── p5.min.js
+│   └── p5.sound.min.js
+└── README.md
 ```
 
 ## How the Four Mechanics Work Together
 
 The four mechanics share the same canvas but have different technical responsibilities.
 
-- **User Input** detects when the cursor moves over the left or right character. Hovering gradually reveals that character’s colour layer. After the first hover,  sin(), millis() and lerp() create a repeating four-second breathing effect.
-- **Audio** begins after the viewer clicks either character. A p5.FFT analyser reads the energy between 20 and 200 Hz. The audio energy changes the circular waveform colour, the dark overlay and the speed of the particles.
+- **User Input** detects when the cursor moves over the left or right character. Hovering gradually reveals that character’s colour layer. After the first hover, `sin()`, `millis()` and `lerp()` create a repeating four-second breathing-opacity effect.
+- **Audio** begins after the viewer clicks either character. A `p5.FFT` analyser reads the energy between 20 and 200 Hz. The audio energy changes the circular waveform colour, the dark overlay and the speed of the particles.
 - **Perlin Noise and Randomness** runs automatically. Perlin noise continuously changes the outlines of two translucent bubbles. Seeded random values create fixed grain positions, so the texture remains stable instead of flickering.
-- **Time-based Interaction**also runs automatically. Character A begins after three seconds and Character B begins after 10.5 seconds. Each character then repeats its own fifteen-second thought-icon sequence.
+- **Time-based Interaction** also runs automatically. Character A begins after three seconds and Character B begins after 10.5 seconds. Each character then repeats its own fifteen-second thought-icon sequence.
 
 The mechanics remain technically separate, but their effects are layered together to create one visual experience.
+
 ## Mechanic Ownership
 
 | Team Member | Mechanic | Script File | Responsibility |
@@ -144,26 +159,26 @@ The mechanics remain technically separate, but their effects are layered togethe
 
 **Purpose**
 
-[The user input mechanic lets users reveal each character's colour by moving the mouse over it.]
+The user input mechanic lets users reveal each character's colour by moving the mouse over it.
 
 **Interaction**
 
-[Move the cursor over either character. The characters respond independently. After a character has been hovered over once, its colour continues to change when the hover moves away.]
+Move the cursor over either character. The characters respond independently. After a character has been hovered over once, its colour continues to change when the hover moves away.
 
 **Visual Result**
 
-[A colour image gradually appears over the white and grey character. When the mouse leaves, that colour layer gently "breath" between lower and higher opacity.]
+A colour image gradually appears over the white and grey character. When the mouse leaves, that colour layer gently "breath" between lower and higher opacity.
 
 **Main Techniques**
 
-- ["mouseMovedInput()" checks the mouse position and sets "mousehover" to "0" for the left character, "1" for the right character, or "-1" when neither is hovered over.]
-- [Separate hover areas identify the two characters.-- "leftHoverOnce" and "rightHoverOnce" remember whether each character has been hovered over.]
-- ["changeimagetransparency()"uses "sin()", "millis()", and "lerp()"to change the colour layer's opacity over time.]
-- ["drawInput()"and "drawInput2()" draw the background and character image layers on the canvas, independently. This approach is better suited for main sketches and also facilitates merging with sketches created by others.]
+- "mouseMovedInput()" checks the mouse position and sets "mousehover" to "0" for the left character, "1" for the right character, or "-1" when neither is hovered over.
+- Separate hover areas identify the two characters.-- "leftHoverOnce" and "rightHoverOnce" remember whether each character has been hovered over.
+- "changeimagetransparency()"uses "sin()", "millis()", and "lerp()"to change the colour layer's opacity over time.]
+- ["drawInput()"and "drawInput2()" draw the background and character image layers on the canvas, independently. This approach is better suited for main sketches and also facilitates merging with sketches created by others.
 
 **Main Script**
 
-`[input-control.js]`
+`input-control.js`
 
 ---
 
@@ -171,25 +186,25 @@ The mechanics remain technically separate, but their effects are layered togethe
 
 **Purpose**
 
-[EXPLAIN WHAT THE AUDIO MECHANIC CONTRIBUTES TO THE CONCEPT]
+EXPLAIN WHAT THE AUDIO MECHANIC CONTRIBUTES TO THE CONCEPT
 
 **Audio Source**
 
-[ADD THE TRACK, RECORDING OR SOUND SOURCE]
+ADD THE TRACK, RECORDING OR SOUND SOURCE
 
 **Visual Result**
 
-[EXPLAIN WHICH VISUAL PROPERTIES RESPOND TO THE AUDIO]
+EXPLAIN WHICH VISUAL PROPERTIES RESPOND TO THE AUDIO
 
 **Main Techniques**
 
-- [ADD AUDIO ANALYSIS TECHNIQUE]
-- [ADD LEVEL OR FREQUENCY TECHNIQUE]
-- [ADD IMPORTANT VARIABLES OR CLASSES]
+- ADD AUDIO ANALYSIS TECHNIQUE
+- ADD LEVEL OR FREQUENCY TECHNIQUE
+- ADD IMPORTANT VARIABLES OR CLASSES
 
 **Main Script**
 
-`[ADD EXACT SCRIPT FILENAME]`
+`audio-mechanic.js`
 
 ---
 
@@ -197,21 +212,21 @@ The mechanics remain technically separate, but their effects are layered togethe
 
 **Purpose**
 
-[EXPLAIN WHAT THE NOISE AND RANDOMNESS MECHANIC CONTRIBUTES TO THE CONCEPT]
+EXPLAIN WHAT THE NOISE AND RANDOMNESS MECHANIC CONTRIBUTES TO THE CONCEPT
 
 **Visual Result**
 
-[EXPLAIN WHICH ELEMENTS USE NOISE AND WHICH USE RANDOM VALUES]
+EXPLAIN WHICH ELEMENTS USE NOISE AND WHICH USE RANDOM VALUES
 
 **Main Techniques**
 
-- `noise()` – [EXPLAIN HOW IT IS USED]
-- `random()` or `randomSeed()` – [EXPLAIN HOW IT IS USED]
-- [ADD IMPORTANT VARIABLES OR CLASSES]
+- `noise()` – EXPLAIN HOW IT IS USED
+- `random()` or `randomSeed()` – EXPLAIN HOW IT IS USED
+- ADD IMPORTANT VARIABLES OR CLASSES
 
 **Main Script**
 
-`[ADD EXACT SCRIPT FILENAME]`
+`ADD EXACT SCRIPT FILENAME`
 
 ---
 
@@ -246,18 +261,25 @@ After each character begins, its sequence repeats every fifteen seconds without 
    
 **Main Techniques**
 
-- `millis()` measures the time since the mechanic was initialised.
+- `millis()` measures the time since the Time-based mechanic was initialised.
 - `cycleStartMillis` stores the starting point of the complete Time-based system.
+- `A_START_SECONDS` and `B_START_SECONDS` create the fixed 7.5-second offset.
+- The modulo operator `%` restarts each local timeline after fifteen seconds.
 - `stageFromTime()` maps the local time to Reveal, Active, Focus, Settle or Dissolve.
-- `lerp()` creates smooth changes in opacity, colour, glow, scale and position.
-- `sin()` and `cos()` create repeatable local movement and liquid deformation.
-- `beginShape()` and `curveVertex()` create irregular liquid containers.
-- `drawingContext.` shadowBlur creates the glow around the focus icon.
-- `CharacterWorld` manages one character’s timer, stage and icon collection.
+- `smoothStep()` creates softer progress curves inside each stage.
+- `lerp()` creates smooth changes in opacity, colour, movement, scale, focus and position.
+- `sin()` and `cos()` create repeatable drifting, pulsing and stretching.
+- A grayscale copy of each icon is crossfaded with its colour version during Reveal.
+- `drawingContext.shadowBlur` creates the glow around the focus icon.
+- `CharacterTimeline` manages one character’s start time, current stage and icon collection.
 - `ThoughtIcon` stores and updates the visual state of one icon.
-- Each character owns five ThoughtIcon objects.
+- Each character owns five `ThoughtIcon` objects.
 
-The movement does not use random values, Perlin noise or audio data. This keeps the Time-based mechanic technically separate from the other mechanics while maintaining a consistent visual style.
+The Time-based mechanic does not use mouse input, audio data, Perlin noise or random values. This keeps it technically separate from the other mechanics while maintaining a consistent visual style.
+
+**Main Script**
+
+`timebased_sketch.js`
 
 **Main Script**
 
@@ -265,30 +287,29 @@ The movement does not use random values, Perlin noise or audio data. This keeps 
 
 ## AI Acknowledgement
 
-Generative AI tools were used during the development process for selected concept exploration, visual references, code assistance, debugging and documentation.
-
-Each team member must describe their own AI use below. AI-generated or AI-assisted code must also be acknowledged in comments inside the relevant script file.
+Generative AI tools were used by some team members for code explanation, debugging, code organisation, documentation and early concept discussion.
+Each team member must describe their own AI use below. AI-assisted code must also be acknowledged in comments inside the relevant script file.
 
 ### User Input – Senhuan Huang
 
-- **AI tool used:** [ChatGPT and Codex]
-- **What it was used for:** [Explaining p5.js functions, reviewing the transparency logic, and helping debug the integration with the main sketch.]
-- **How the assisted code works:** [changeimagetransparency() fades in that character's colour layer on first hover, then uses a sine wave and lerp() to vary its opacity after the cursor leaves.]
-- **How the code was reviewed or changed:** [ I adjusted the logic for determining a first time of mouse-entry(hover) event, then tested in the browser that each character responds when the cursor enters and leaves its area.]
+- **AI tool used:** ChatGPT and Codex
+- **What it was used for:** Explaining p5.js functions, reviewing the transparency logic, and helping debug the integration with the main sketch.
+- **How the assisted code works:** changeimagetransparency() fades in that character's colour layer on first hover, then uses a sine wave and lerp() to vary its opacity after the cursor leaves.
+- **How the code was reviewed or changed:** I adjusted the logic for determining a first time of mouse-entry(hover) event, then tested in the browser that each character responds when the cursor enters and leaves its area.
 
 ### Audio – Xinya Huang
 
-- **AI tool used:** [TO BE COMPLETED]
-- **What it was used for:** [TO BE COMPLETED]
-- **How the assisted code works:** [TO BE COMPLETED]
-- **How the code was reviewed or changed:** [TO BE COMPLETED]
+- **AI tool used:** 
+- **What it was used for:** 
+- **How the assisted code works:** 
+- **How the code was reviewed or changed:** 
 
 ### Perlin Noise and Randomness – Runqing Tian
 
-- **AI tool used:** [TO BE COMPLETED]
-- **What it was used for:** [TO BE COMPLETED]
-- **How the assisted code works:** [TO BE COMPLETED]
-- **How the code was reviewed or changed:** [TO BE COMPLETED]
+- **AI tool used:** 
+- **What it was used for:** 
+- **How the assisted code works:** 
+- **How the code was reviewed or changed:** 
 
 ### Time-based Interaction – Leona Li
 
@@ -296,12 +317,19 @@ ChatGPT was used to assist with planning, developing, explaining and debugging p
 
 It assisted with:
 
-- Structuring the `CharacterWorld` and `ThoughtIcon` classes
 - Creating independent timers for Character A and Character B
-- Organising the thirteen-second sequence into five visual stages
+- Organising the fixed-offset timelines for Character A and Character B
+- Organising the fifteen-second sequence into five visual stages
 - Improving variable names, comments and code organisation
 
 The Time-based code measures the elapsed frames after a character is activated. The elapsed time is converted into Outline, Colour, Expansion, Focus or Dissolve. Each `ThoughtIcon` then updates its opacity, colour, glow, scale, position, motion and deformation according to the current stage.
+
+#### Time-based Technical References
+- p5.js. `millis()`. https://p5js.org/reference/p5/millis/
+- p5.js. `createImage()`. https://p5js.org/reference/p5/createImage/
+- p5.js. `drawingContext`. https://p5js.org/reference/p5/drawingContext/
+- MDN Web Docs. `Object.freeze()`. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze
+- Khronos Group. `smoothstep`. https://registry.khronos.org/OpenGL-Refpages/gl4/html/smoothstep.xhtml
 
 ### Visual Asset Authorship
 
@@ -319,8 +347,8 @@ The project was visually inspired by the digital artworks of Arthur Machado, but
 
 ### References
 
-- Colorful Coding. (2021, March 1). Code an audio visualizer in p5js (from scratch) | Coding Project #17 [Video]. YouTube. https://www.youtube.com/watch?             v=uk96O7N1Yo0
-- Liude Dingdianshi. (2026, July 14). A colourful ring that breathes with music in p5.js [Video]. Xiaohongshu.                                                        https://www.xiaohongshu.com/explore/6a556c58000000000f030883
+- Colorful Coding. (2021, March 1). *Code an audio visualizer in p5.js from scratch | Coding Project #17* [Video]. YouTube. https://www.youtube.com/watch?v=uk96O7N1Yo0
+- Liude Dingdianshi. (2026, July 14). A colourful ring that breathes with music in p5.js [Video]. Xiaohongshu.                                                              https://www.xiaohongshu.com/explore/6a556c58000000000f030883
 - Machado, A. (2015). In Natura [Databend artwork]. [ANTI]MATERIA. https://anti-materia.org/arthur-machado-eng
 - Machado, A. (2015). Sin título [Databend artwork]. [ANTI]MATERIA. https://anti-materia.org/arthur-machado-eng
 - Machado, A. (2016). New DLA [3D model]. [ANTI]MATERIA. https://anti-materia.org/arthur-machado-eng
@@ -334,7 +362,7 @@ The project was visually inspired by the digital artworks of Arthur Machado, but
 
 | Team Member | Mechanic |
 |---|---|
-| Senhuan Huang | User Input |
-| Xinya Huang | Audio |
-| Runqing Tian | Perlin Noise and Randomness |
-| Leona Li | Time-based Interaction |
+| Senhuan Huang·550464143·shua0181 | User Input |
+| Xinya Huang·550836030·xhua0007 | Audio |
+| Runqing Tian· 550826916·rtia0370 | Perlin Noise and Randomness |
+| Leona Li·550795771·yuli0890 | Time-based Interaction |
