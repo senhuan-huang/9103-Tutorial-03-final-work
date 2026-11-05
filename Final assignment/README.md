@@ -148,7 +148,7 @@ The mechanics remain technically separate, but their effects are layered togethe
 
 | Team Member | Mechanic | Script File | Responsibility |
 |---|---|---|---|
-| Senhuan Huang | User Input | `Input-control.js` | Detects mouse hover over each character and controls the fade-in. Besides, the people will continuously adjust the color gradient, each circuler is 4s,just like breath. |
+| Senhuan Huang | User Input | `input-control.js` | Detects mouse hover over each character and controls the fade-in. Besides, the people will continuously adjust the color gradient, each circuler is 4s,just like breath. |
 | Xinya Huang | Audio | `audio-mechanic.js` | Uses FFT energy and waveform data to control the circular audio visualisation, colour transitions, dark overlay and particle speed. |
 | Runqing Tian | Perlin Noise and Randomness | `perlin_main_sketch.js and perlin-layer2.js` | Uses Perlin noise to animate two frosted bubble outlines and seeded random values to create stable grain textures. |
 | Leona Li | Time-based Interaction |  `timebased_sketch.js` | Automatically controls the delayed start and repeating fifteen-second visual life cycle of each character’s thought icons. |
@@ -159,11 +159,11 @@ The mechanics remain technically separate, but their effects are layered togethe
 
 **Purpose**
 
-The user input mechanic lets users reveal each character's colour by moving the mouse over it.
+The User Input mechanic allows the viewer to reveal each character’s colour by moving the cursor over the figure.
 
 **Interaction**
 
-Move the cursor over either character. The characters respond independently. After a character has been hovered over once, its colour continues to change when the hover moves away.
+Move the cursor over either character. The two characters respond separately. After a character has been hovered over once, its colour layer continues to change even when the cursor moves away.
 
 **Visual Result**
 
@@ -171,10 +171,13 @@ A colour image gradually appears over the white and grey character. When the mou
 
 **Main Techniques**
 
-- "mouseMovedInput()" checks the mouse position and sets "mousehover" to "0" for the left character, "1" for the right character, or "-1" when neither is hovered over.
-- Separate hover areas identify the two characters.-- "leftHoverOnce" and "rightHoverOnce" remember whether each character has been hovered over.
-- "changeimagetransparency()"uses "sin()", "millis()", and "lerp()"to change the colour layer's opacity over time.]
-- ["drawInput()"and "drawInput2()" draw the background and character image layers on the canvas, independently. This approach is better suited for main sketches and also facilitates merging with sketches created by others.
+- `mouseMovedInput()` checks the mouse position.
+- `mousehover` is set to `0` for the left character, `1` for the right character and `-1` when neither character is hovered over.
+- Separate rectangular hover areas identify the two characters.
+- `leftHoverOnce` and `rightHoverOnce` remember whether each character has previously been hovered over.
+- `changeimagetransparency()` uses `sin()`, `millis()` and `lerp()` to control the colour layer’s opacity.
+- `drawInput()` draws the background.
+- `drawInput2()` draws the neutral and colour character layers.
 
 **Main Script**
 
@@ -195,33 +198,30 @@ The soundtrack used in this project is Light Leaks by Shrimpnose, Joe Nora and A
 I downloaded the track from QQ Music and personally selected and edited a short excerpt for the project. The edited audio was saved as music1.wav in the assets folder and is used as the looping soundtrack for the Audio mechanic.
 
 The audio is loaded using loadSound() and analysed in real time with p5.FFT() to drive the circular waveform, colour transitions, particle movement and other sound-reactive visual effects.
-EXPLAIN WHICH VISUAL PROPERTIES RESPOND TO THE AUDIO
 
 **Main Techniques**
 
-p5.FFT(0.3) analyses the soundtrack in real time, using a smoothing value to control the response of the audio data.
-
-fft.waveform() provides waveform values, which are mapped to the radius of two mirrored semicircular shapes using map(), sin(), cos() and vertex().
-
-fft.getEnergy(20, 200) measures low-frequency energy and provides a control value for the visual effects.
-
-lerpColor() creates smooth colour transitions between cyan, blue-purple, purple and pink.
-
-The Particle class stores each particle's position, velocity, acceleration, size and colour. Its update() method controls movement, show() draws the glowing particles, and edges() removes particles after they leave the canvas.
-
-A conditional energy threshold increases particle speed while the soundtrack is playing, without stopping their normal movement when the music is paused.
-
-map(), transparency and conditional rotation are used to create the audio-responsive background effects in the standalone prototype.\
+- `p5.FFT(0.3)` analyses the soundtrack in real time and applies smoothing to the audio data.
+- `fft.waveform()` provides waveform values for the circular visualisation.
+- `fft.getEnergy(20, 200)` measures the audio energy between 20 and 200 Hz.
+- `map()`, `sin()`, `cos()` and `vertex()` convert the waveform data into two mirrored semicircular shapes.
+- `lerpColor()` creates smooth transitions between cyan, blue-purple, purple and pink.
+- The `Particle` class stores each particle’s position, velocity, acceleration, size and colour.
+- `Particle.update()` controls movement.
+- `Particle.show()` draws the glowing particles.
+- `Particle.edges()` removes particles after they leave the canvas.
+- A conditional energy threshold increases particle speed while the soundtrack is playing.
+- `userStartAudio()` allows the soundtrack to begin after a valid character click.
 
 **Visual Result**
 
-The circular waveform changes shape according to the audio waveform data, creating an irregular outline that moves inward and outward with the sound. Its colour transitions smoothly between cyan, blue-purple, purple and pink as the low-frequency energy changes.
+When the soundtrack is playing, a circular waveform appears around the centre of the canvas. Its shape moves inward and outward according to the waveform data.
 
-Soft glowing particles continuously move outward from the circular visualiser, even when the music is not playing. When the soundtrack is playing and the audio energy exceeds a threshold, the particles accelerate, creating a stronger sense of movement.
+The waveform colour changes between cyan, blue-purple, purple and pink as the low-frequency audio energy changes.
 
-Audio energy also controls a semi-transparent dark overlay. In my standalone prototype, I additionally used subtle background rotation during stronger audio peaks and a soft vignette to create a dreamlike atmosphere.
+A semi-transparent dark overlay and soft vignette help the visualisation stand out from the background. Glowing particles move outward from the circular visualiser and accelerate when the audio energy exceeds the selected threshold.
 
-During final group integration, the original Play/Pause testing button was replaced by character-click interaction, and the canvas dimensions and visual positioning were adapted to fit the shared artwork.
+During final group integration, the original Play/Pause testing button was replaced by character-click interaction. Clicking either character now starts the looping soundtrack and Audio visualisation.
 
 **Original Background Illustration**
 
@@ -264,9 +264,10 @@ Two bubbles appear side by side, with a pale pink rim on the left and a pale blu
 - `push()`, `translate()` and `pop()` position each bubble while keeping its drawing styles and coordinate transformations separate.
 - Proportional coordinates, `min()` and `windowResized()` adjust the bubbles’ positions and sizes when the browser window changes.
 
-**Main Script**
+**Main Scripts**
 
-`perlin_main_sketch.js and perlin-layer2.js`
+- `perlin_main_sketch.js`
+- `perlin-layer2.js`
 
 ---
 
@@ -357,31 +358,43 @@ ChatGPT was used to assist with planning, developing, explaining and debugging p
 
 It assisted with:
 
-- Creating independent timers for Character A and Character B
+- Structuring the `CharacterTimeline` and `ThoughtIcon` classes
 - Organising the fixed-offset timelines for Character A and Character B
 - Organising the fifteen-second sequence into five visual stages
+- Developing the grayscale-to-colour transition
 - Improving variable names, comments and code organisation
 
-The Time-based code measures the elapsed frames after a character is activated. The elapsed time is converted into Outline, Colour, Expansion, Focus or Dissolve. Each `ThoughtIcon` then updates its opacity, colour, glow, scale, position, motion and deformation according to the current stage.
+The Time-based mechanic uses `millis()` to measure elapsed time from the beginning of the artwork.
+
+Character A first begins after three seconds, while Character B first begins after 10.5 seconds. Each character converts the shared time into its own local time and repeats a fifteen-second sequence.
+
+`stageFromTime()` converts the local time into Reveal, Active, Focus, Settle or Dissolve. Each `ThoughtIcon` then updates its opacity, colour, movement, scale, focus and position according to the current stage.
+
+The AI-assisted code was reviewed, tested, adjusted and integrated by Leona Li.
 
 ### Visual Asset Authorship
 
-All visual assets used in the final artwork were designed and created by the team. No generative AI was used to produce or modify the final background, characters, thought icons, circles, bubbles, particles or textures.
+All final image assets were designed and created by the team. No generative AI image generator was used to create or modify the final background, character illustrations or thought-icon images.
+
+The visual concepts, colour choices and art direction were developed by the team. Some code used to implement procedural effects received AI assistance, as documented in the AI Acknowledgement section.
 
 | Visual Element | Creation Method | Use in the Project |
 |---|---|---|
-| Background | Designed and created by Xinya Huang | Establishes the cosmic and dreamlike environment of the artwork |
+| Background | Designed and illustrated by Xinya Huang | Establishes the cosmic and dreamlike environment |
 | Character A | Designed and illustrated by Leona Li | Represents Reality and Pressure |
 | Character B | Designed and illustrated by Leona Li | Represents Memory and Imagination |
 | Thought icons | Designed and illustrated by Leona Li | Represent the thoughts, memories and responsibilities inside each character |
-| Perlin noise bubbles | Designed by Runqing Tian then created through the p5.js code | Produce continuously changing frosted bubble forms |
+| Character colour and transparency effect | Designed by Senhuan Huang and implemented with p5.js | Reveals the colour layers and creates the breathing-opacity effect |
+| Audio circles and particles | Designed by Xinya Huang and implemented with p5.js | Visualise waveform data, audio energy and particle movement |
+| Perlin noise bubbles | Designed by Runqing Tian and implemented with p5.js | Produce continuously changing frosted bubble forms |
+| Time-based icon animation | Designed by Leona Li and implemented with p5.js | Controls the icons’ appearance, colour, movement, focus and disappearance |
 
 The project was visually inspired by the digital artworks of Arthur Machado, but the team did not copy or directly reuse visual assets from his artworks.
 
 ### References
 
-- Colorful Coding. (2021, March 1). *Code an audio visualizer in p5.js from scratch | Coding Project #17* [Video]. YouTube.                   https://www.youtube.com/watch?v=uk96O7N1Yo0
-- Liude Dingdianshi. (2026, July 14). A colourful ring that breathes with music in p5.js [Video]. Xiaohongshu.                                https://www.xiaohongshu.com/explore/6a556c58000000000f030883
+- Colorful Coding. (2021, March 1). *Code an audio visualizer in p5.js from scratch | Coding Project #17*         [Video]. YouTube. https://www.youtube.com/watch?v=uk96O7N1Yo0
+- Liude Dingdianshi. (2026, July 14). A colourful ring that breathes with music in p5.js [Video]. Xiaohongshu.    https://www.xiaohongshu.com/explore/6a556c58000000000f030883
 - Machado, A. (2015). In Natura [Databend artwork]. [ANTI]MATERIA. https://anti-materia.org/arthur-machado-eng
 - Machado, A. (2015). Sin título [Databend artwork]. [ANTI]MATERIA. https://anti-materia.org/arthur-machado-eng
 - Machado, A. (2016). New DLA [3D model]. [ANTI]MATERIA. https://anti-materia.org/arthur-machado-eng
@@ -390,7 +403,23 @@ The project was visually inspired by the digital artworks of Arthur Machado, but
 - Yangou Nengliang Wuqiong. (2026, July 22). Audio visualisation [Video]. Xiaohongshu. https://www.xiaohongshu.com/explore/6a60c3b6000000000f01611a
 - Shrimpnose, & Joe Nora. (2021). Light leaks (feat. Allem Iversom) [Song]. On Between dunes EP. Friends of Friends Music. https://shrimpnose.bandcamp.com/album/between-dunes-ep
     
+### Perlin Noise and Randomness References
 
+- p5.js. `noiseSeed()`. https://p5js.org/reference/p5/noiseSeed/
+- p5.js. `randomSeed()`. https://p5js.org/reference/p5/randomSeed/
+- W3Schools. JavaScript Functions. https://www.w3schools.com/js/js_functions.asp
+- W3Schools. JavaScript Arrays. https://www.w3schools.com/js/js_arrays.asp
+- W3Schools. JavaScript For Loop. https://www.w3schools.com/js/js_loop_for.asp
+- The Coding Train. Perlin Noise Detail in p5.js. https://thecodingtrain.com/tracks/noise/noc/perlin/perlin-noise-detail
+
+### Time-based Interaction References
+
+- p5.js. `millis()`. https://p5js.org/reference/p5/millis/
+- p5.js. `lerp()`. https://p5js.org/reference/p5/lerp/
+- p5.js. `createImage()`. https://p5js.org/reference/p5/createImage/
+- p5.js. `drawingContext`. https://p5js.org/reference/p5/drawingContext/
+- MDN Web Docs. `Object.freeze()`. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze
+- Khronos Group. `smoothstep`. https://registry.khronos.org/OpenGL-Refpages/gl4/html/smoothstep.xhtml
 
 ## Team Members
 
