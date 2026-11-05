@@ -190,10 +190,7 @@ function drawtime() {
   //pop();
 //}
 
-// Pressing R restarts both timelines from the opening quiet state. Their offset
-// is preserved because both characters use the same cycleStartMillis value.
-function keyPressed() {
-  if (key === "r" || key === "R") {
+ {
     cycleStartMillis = millis();
   }
 }
