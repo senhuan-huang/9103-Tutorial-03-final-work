@@ -6,6 +6,14 @@ let particles = [];
 
 function preloadAudio() {
   // Load the audio file
+  // Music source: "Light Leaks" by Shrimpnose, Joe Nora
+  // and Allem Iversom (2021), from Between Dunes EP.
+  // Source: https://shrimpnose.bandcamp.com/track/light-leaks-feat-allem-iversom
+  // I downloaded the track from QQ Music and personally
+  // selected and edited a short excerpt for this project.
+  // The edited audio is saved as music1.wav.
+  // Original music rights belong to the respective rights holders.
+  // Full reference is provided in README.md.
   song = loadSound("assets/music1.wav");
   //img = loadImage("assets/BGfinal.png")
 }
@@ -68,7 +76,13 @@ rectMode(CENTER);
   pop()
 
   
-  // Map audio energy to the hue spectrum
+// Colour interpolation uses the p5.js lerpColor() function.
+ // Reference: https://p5js.org/reference/p5/lerpColor/
+ // I applied this technique to create a custom
+ // audio-reactive transition between cyan,
+ // blue-purple, purple and pink.
+ // The transition is controlled by low-frequency energy.
+  
   let colorAmount = map(amplitude,60,180,0,1)
   colorAmount = constrain(colorAmount,0,1)
 
@@ -104,7 +118,7 @@ rectMode(CENTER);
       let r = map(wave[index], -1, 1, 250, 310);
       // Math.sin() and Math.cos() use radians, so convert i from degrees.
       const angle = i * Math.PI / 180;
-      //r 是由波形设定的半径,t 取值为 -1 或 1
+    
       let x = r * Math.sin(angle) * t;
       let y = r * Math.cos(angle);
 
@@ -114,7 +128,7 @@ rectMode(CENTER);
     endShape();
   }
 
-  // Add particles
+
   let p = new Particle()
   particles.push(p)
   
@@ -141,6 +155,12 @@ function playPause() {
   }
 }
 
+ // Particle visualisation inspired by Colorful Coding:https://www.youtube.com/watch?v=uk96O7N1Yo0
+ // Each particle has its own position, velocity,acceleration, size and colour.
+ // I adapted the movement conditions so particles
+ // continue moving without music and accelerate
+ // when the audio energy exceeds a threshold.
+ // Layered ellipses create a soft glowing effect.
 
 class Particle {
   constructor(){
