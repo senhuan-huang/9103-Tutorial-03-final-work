@@ -11,6 +11,13 @@
  *
  * I adapted the visual parameters, colour palette,
  * particle behaviour and audio response for this project.
+ 
+ * AI acknowledgement:
+ * ChatGPT was used to help explain the Week 10 audio tutorial,
+ * translate comments into English and review the code for errors.
+ * The waveform, colour palette, particle behaviour and visual
+ * parameters were tested and adjusted by Xinya Huang.
+ * Full details are included in README.md.
  */
 
 let song;
