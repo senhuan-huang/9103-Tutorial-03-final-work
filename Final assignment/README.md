@@ -214,6 +214,7 @@ A conditional energy threshold increases particle speed while the soundtrack is 
 map(), transparency and conditional rotation are used to create the audio-responsive background effects in the standalone prototype.\
 
 **Visual Result**
+
 The circular waveform changes shape according to the audio waveform data, creating an irregular outline that moves inward and outward with the sound. Its colour transitions smoothly between cyan, blue-purple, purple and pink as the low-frequency energy changes.
 
 Soft glowing particles continuously move outward from the circular visualiser, even when the music is not playing. When the soundtrack is playing and the audio energy exceeds a threshold, the particles accelerate, creating a stronger sense of movement.
@@ -223,6 +224,7 @@ Audio energy also controls a semi-transparent dark overlay. In my standalone pro
 During final group integration, the original Play/Pause testing button was replaced by character-click interaction, and the canvas dimensions and visual positioning were adapted to fit the shared artwork.
 
 **Original Background Illustration**
+
 The final background, BGfinal.png, was hand-drawn by Xinya Huang specifically for Interior Distance. It depicts a dreamlike landscape with blue mountains, a reflective lake, soft pink and yellow lighting, glowing plants and a crescent moon.
 
 Its visual direction was inspired by the surreal atmosphere, luminous colours and dreamlike digital environments found in the work of Brazilian digital artist Arthur Machado (Tù.úk'z). These influences were interpreted through an original hand-drawn landscape rather than directly copying or reusing any existing artwork.
