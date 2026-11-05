@@ -114,7 +114,7 @@ Final assignment/
 ├── main sketch.js
 ├── input-control.js
 ├── audio-mechanic.js
-├── perlin-layer1.js
+├── perlin_main_sketch.js
 ├── perlin-layer2.js
 ├── timebased_sketch.js
 ├── assets/
@@ -148,9 +148,9 @@ The mechanics remain technically separate, but their effects are layered togethe
 
 | Team Member | Mechanic | Script File | Responsibility |
 |---|---|---|---|
-| Senhuan Huang | User Input | `Input-control,js` | Detects mouse hover over each character and controls the fade-in. Besides, the people will continuously adjust the color gradient, each circuler is 4s,just like breath. |
+| Senhuan Huang | User Input | `Input-control.js` | Detects mouse hover over each character and controls the fade-in. Besides, the people will continuously adjust the color gradient, each circuler is 4s,just like breath. |
 | Xinya Huang | Audio | `audio-mechanic.js` | Uses FFT energy and waveform data to control the circular audio visualisation, colour transitions, dark overlay and particle speed. |
-| Runqing Tian | Perlin Noise and Randomness | `perlin-layer1.js` | Uses Perlin noise to animate two frosted bubble outlines and seeded random values to create stable grain textures. |
+| Runqing Tian | Perlin Noise and Randomness | `perlin_main_sketch.js and perlin-layer2.js` | Uses Perlin noise to animate two frosted bubble outlines and seeded random values to create stable grain textures. |
 | Leona Li | Time-based Interaction |  `timebased_sketch.js` | Automatically controls the delayed start and repeating fifteen-second visual life cycle of each character’s thought icons. |
 
 ## Individual Mechanic Details
@@ -241,21 +241,33 @@ The background establishes a calm, imaginative atmosphere and provides a visual 
 
 **Purpose**
 
-EXPLAIN WHAT THE NOISE AND RANDOMNESS MECHANIC CONTRIBUTES TO THE CONCEPT
+This mechanic creates two softly glowing bubbles with gently changing outlines. Based on my initial concept drawings, the effect combines translucent interiors, coloured rims and fine grain textures to create a delicate, organic appearance. The two bubbles change at slightly different speeds, giving each its own movement while maintaining a balanced composition.
 
 **Visual Result**
 
-EXPLAIN WHICH ELEMENTS USE NOISE AND WHICH USE RANDOM VALUES
+Two bubbles appear side by side, with a pale pink rim on the left and a pale blue rim on the right. Each bubble has a translucent, near-white interior surrounded by a soft, frosted edge. Small grains follow the changing outline, adding texture while retaining a consistent pattern. The transparent canvas background allows the effect to be placed over other visual layers.
 
 **Main Techniques**
 
-- `noise()` – EXPLAIN HOW IT IS USED
-- `random()` or `randomSeed()` – EXPLAIN HOW IT IS USED
-- ADD IMPORTANT VARIABLES OR CLASSES
+- `createBubble()` creates an object that stores each bubble’s colour, noise offset, outline data and grain properties.
+- `randomSeed()` makes the initial random values repeatable, while `noiseSeed()` fixes the noise field.
+- `noiseDetail(2, 0.5)` controls the noise pattern using two octaves and a falloff factor of 0.5.
+- `updateBubble()` updates 96 outline samples to create a continuously changing shape.
+- `sin()` and `cos()` create a circular sampling path in noise space, allowing the outline to meet smoothly at its seam.
+- `deltaTime` controls the rate of deformation, while `min()` limits each time step to 0.05 seconds to reduce sudden changes after slow frames.
+- `beginShape()`, `vertex()` and `endShape(CLOSE)` connect the outline points into a closed shape.
+- `drawOutline()` reuses the calculated outline at different scales to draw 64 overlapping rim layers.
+- `exp()` and `pow()` calculate an opacity falloff that gives the layered rim a soft appearance.
+- Each bubble stores 2,200 grains whose random properties are generated once to avoid flickering from repeated randomisation.
+- `floor()` and the remainder operator `%` identify neighbouring outline samples and wrap the final index back to the first.
+- `lerp()` interpolates between neighbouring radius values so the grains follow the changing outline.
+- `push()`, `translate()` and `pop()` position each bubble while keeping its drawing styles and coordinate transformations separate.
+- `clear()` removes the previous frame while preserving the canvas’s transparent background.
+- Proportional coordinates, `min()` and `windowResized()` adjust the bubbles’ positions and sizes when the browser window changes.
 
 **Main Script**
 
-`ADD EXACT SCRIPT FILENAME`
+`perlin_main_sketch.js and perlin-layer2.js`
 
 ---
 
@@ -331,10 +343,15 @@ Each team member must describe their own AI use below. AI-assisted code must als
 
 ### Perlin Noise and Randomness – Runqing Tian
 
-- **AI tool used:** 
-- **What it was used for:** 
-- **How the assisted code works:** 
-- **How the code was reviewed or changed:** 
+- **AI tools used:** ChatGPT and Codex (OpenAI).
+
+- **What they were used for:** I provided ChatGPT with my own concept drawings and asked how to achieve the intended bubble effect in p5.js. ChatGPT assisted with the more complex implementation, including the grain positioning and time-based animation updates.
+
+- **How the assisted code works:** `updateBubble()` samples noise along a circular path using `sin()` and `cos()`, while an advancing time coordinate makes the outline change smoothly. `deltaTime` controls this progression, with a capped time step to limit sudden changes. `drawBubble()` overlays 64 scaled outlines and uses `exp()` and `pow()` to control their opacity, producing a soft rim. The grains retain their initial random properties, while `lerp()` calculates their radial positions from neighbouring outline samples so they follow the changing shape.
+
+- **My contribution:** I developed the visual concept through my own drawings and wrote the basic variables and simple functions. The website called: "W3schools", https://www.w3schools.com/, The YouTube channel called: "The Coding Train", https://www.youtube.com/@TheCodingTrain and ChatGPT supported the implementation of the more complex effects described above.
+
+- **How the code was reviewed or changed:** I made several revisions or adjustments to the style and color of the bubbles to make them more in line with the styles of the team members, and used Codex (OpenAI) to check for any errors in the code, especially in `perlin_main_sketch.js and perlin-layer2.js`.
 
 ### Time-based Interaction – Leona Li
 
