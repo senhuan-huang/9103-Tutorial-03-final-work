@@ -336,10 +336,10 @@ Each team member must describe their own AI use below. AI-assisted code must als
 
 ### Audio – Xinya Huang
 
-- **AI tool used:** 
-- **What it was used for:** 
-- **How the assisted code works:** 
-- **How the code was reviewed or changed:** 
+- **AI tool used:** ChatGPT 
+- **What it was used for:** ChatGPT was used to help me understand the IDEA9103 Week 10 audio tutorial and the external p5.js audio visualiser tutorial. It also helped translate my code comments into English and check the code for potential errors.
+- **How the assisted code works:** The code uses p5.FFT to analyse audio data and color data. 
+- **How the code was reviewed or changed:** I reviewed the explanations and checked the code through repeated testing in VS Code. I adjusted the waveform radius, colour palette, particle movement and glow effects across several iterations, and tested the results before group integration.
 
 ### Perlin Noise and Randomness – Runqing Tian
 
