@@ -134,8 +134,8 @@ The mechanics remain technically separate, but their effects are layered togethe
 | Team Member | Mechanic | Script File | Responsibility |
 |---|---|---|---|
 | Senhuan Huang | User Input | `[Input-control,js]` | Detects mouse hover over each character and controls the fade-in. Besides, the people will continuously adjust the color gradient, each circuler is 4s,just like breath. |
-| Xinya Huang | Audio | `[audio-mechanic.js]` | Uses FFT energy and waveform data to control the circular audio visualisation, colour transitions, dark overlay and particle speed.] |
-| Runqing Tian | Perlin Noise and Randomness | `[perlin-layer1.js]` | Uses Perlin noise to animate two frosted bubble outlines and seeded random values to create stable grain textures.] |
+| Xinya Huang | Audio | `[audio-mechanic.js]` | Uses FFT energy and waveform data to control the circular audio visualisation, colour transitions, dark overlay and particle speed. |
+| Runqing Tian | Perlin Noise and Randomness | `[perlin-layer1.js]` | Uses Perlin noise to animate two frosted bubble outlines and seeded random values to create stable grain textures. |
 | Leona Li | Time-based Interaction |  `[timebased_sketch.js]` | Automatically controls the delayed start and repeating fifteen-second visual life cycle of each character’s thought icons. |
 
 ## Individual Mechanic Details
@@ -312,7 +312,7 @@ All visual assets used in the final artwork were designed and created by the tea
 | Background | Designed and created by Xinya Huang | Establishes the cosmic and dreamlike environment of the artwork |
 | Character A | Designed and illustrated by Leona Li | Represents Reality and Pressure |
 | Character B | Designed and illustrated by Leona Li | Represents Memory and Imagination |
-| Thought icons | Designed and illustrated by LEona Li | Represent the thoughts, memories and responsibilities inside each character |
+| Thought icons | Designed and illustrated by Leona Li | Represent the thoughts, memories and responsibilities inside each character |
 | Perlin noise bubbles | Designed by Runqing Tian then created through the p5.js code | Produce continuously changing frosted bubble forms |
 
 The project was visually inspired by the digital artworks of Arthur Machado, but the team did not copy or directly reuse visual assets from his artworks.
