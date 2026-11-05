@@ -2,15 +2,20 @@
  * Independent Inner Worlds - Time-based mechanic
  * Mechanic owner: Leona Li
  *
- * This file controls the life cycle of the thinking icons.
- * After the roles A and B start running, there will be a
- * 3-second period without any effect. Then, 3 seconds later,
- * they will follow the same 15-second sequence, but their starting times are different,
- * so their inner worlds do not need to appear simultaneously.
- * 
- * AI note: ChatGPT helped me reorganise the offset timelines and the
- * grayscale-to-colour transition. I tested, adjusted and integrated the code.
- * A fuller acknowledgement is included in README.md.
+ * This file controls the visual life cycle of the thought icons.
+ * Character A first begins three seconds after the page loads.
+ * Character B first begins 10.5 seconds after the page loads.
+ * Each character then repeats the same fifteen-second sequence,
+ * while keeping a fixed 7.5-second offset.
+ *
+ * The Time-based mechanic runs automatically and does not use
+ * mouse input, audio data, Perlin noise or random values.
+ *
+ * AI note:
+ * ChatGPT assisted with reorganising the fixed-offset timelines,
+ * the grayscale-to-colour transition and the code documentation.
+ * I tested, adjusted and integrated the code. A fuller
+ * acknowledgement is included in README.md.
 
  * References consulted:
  * - p5.js millis(): https://p5js.org/reference/p5/millis/
